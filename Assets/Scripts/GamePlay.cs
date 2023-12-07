@@ -59,14 +59,12 @@ public class GamePlay : MonoBehaviour
                     int i = int.Parse(tmp[0].ToString());
                     int j = int.Parse(tmp[1].ToString());
                    
-
-                        print(i + " " + j);
                         bool success = board.Move(currentplayer, i, j);
                         if (success)
                         {
                             string targetname = i + "" + j;
                             var pos = GameObject.Find(targetname);
-                            print(targetname + " " + "Prefabs/" + currentsymbol);
+                            //print(targetname + " " + "Prefabs/" + currentsymbol);
                             GameObject chess = Instantiate(Resources.Load("Prefabs/" + currentsymbol), pos.transform) as GameObject;
                             chessSet.Add(chess);
                             checkEndGame();
@@ -98,7 +96,7 @@ public class GamePlay : MonoBehaviour
     private string mouseHit()
     {
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-        print(Input.mousePosition + " hit");
+
         if (hit.collider != null)
         {
             

@@ -195,7 +195,7 @@ public class Board : MonoBehaviour
         {
             return board[1,1];
         }
-        print("left " + left);
+        //print("left " + left);
         if(left == 0)
         {
             return -2; 
