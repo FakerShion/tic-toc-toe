@@ -35,7 +35,8 @@ public class Board : MonoBehaviour
         System.Random rnd = new System.Random();
         
         int random = rnd.Next(0, remain.Count);
-        Vector2 re = remain[random];
+        //Vector2 re = remain[random];
+        Vector2 re = Reward(remain);
         board[(int)re.x, (int)re.y] = 2;
         left -= 1;
         return re;
@@ -43,17 +44,117 @@ public class Board : MonoBehaviour
 
     public Vector2 Reward(List<Vector2> remain)
     {
-        int best = 0;
+        int bestIdx = 0;
+        int highest = -20;
 
         for(int i = 0; i< remain.Count; i++)
         {
-            int cost = (int)remain[i].x;
+            int x = (int)remain[i].x;
+            int y = (int)remain[i].y;
+            int re = CheckFinish(2,1, x, y);
+            if (re > highest)
+            {
+                highest = re;
+                bestIdx = i;
+            }
+
         }
-        return remain[best];
+      //print(highest + "highest " + bestIdx);
+        return remain[bestIdx];
+    }
+
+    private int CheckFinish(int add, int minus, int x, int y)
+    {
+        int countaddx = 0;
+        int countaddy = 0;
+        int countaddz = 0;
+        int countaddt = 0;
+        int countminusx = 0;
+        int countminusy = 0;
+        int countminusz = 0;
+        int countminust = 0;
+        int counts = 0;
+       
+        for (int i=0; i < 3; i++)
+        {
+            //ºá
+            if (x != i)
+            {
+                if (board[i, y]== add)
+                {
+                    countaddx += 1;
+                    counts += 1;
+                }
+                else if (board[i, y] == minus)
+                {
+                    countminusx += 1;
+                    counts -= 1;
+                }
+                //Ğ±1
+                if (x == y)
+                {
+                    if (board[i, i] == add)
+                    {
+                        countaddz += 1;
+                        counts += 1;
+                    }
+                    else if (board[i, i] == minus)
+                    {
+                        countminusz += 1;
+                        counts -= 1;
+                    }
+                   
+                }
+               
+                //Ğ±2
+                if (x + y == 2)
+                {
+                    if (board[i, 2 - i] == add)
+                    {
+                        countaddt += 1;
+                        counts += 1;
+                    }
+                    else if (board[i, 2 - i] == minus)
+                    {
+                        countminust += 1;
+                        counts -= 1;
+                    }
+                  
+                }
+               
+            }
+            //Êú
+            if (y != i)
+            {
+                if (board[x, i] == add)
+                {
+                    countaddy += 1;
+                    counts += 1;
+                }
+                else if(board[x, i] == minus)
+                {
+                    countminusy += 1;
+                    counts -= 1;
+                }
+            }
+           
+        }
+        if (countaddx==2 || countaddy==2 || countaddz ==2|| countaddt==2)
+        {
+            counts += 20;
+           
+        }
+        if (countminusx==2 || countminusy == 2 || countminusz == 2|| countminust == 2)
+        {
+            counts += 10;
+           
+        }
+
+        return counts;
     }
 
 
-    public bool Move(int value,int row,int col)
+        public bool Move(int value,int row,int col)
     {
         if (board[row,col] == 0 )
         {
