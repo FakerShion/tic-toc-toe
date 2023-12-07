@@ -47,7 +47,7 @@ public class Board : MonoBehaviour
 
         for(int i = 0; i< remain.Count; i++)
         {
-            cost = remain[i].x
+            cost = remain[i].x;
         }
         return remain[best];
     }
